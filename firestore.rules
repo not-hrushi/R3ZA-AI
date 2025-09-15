@@ -1,0 +1,12 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Match any document in the 'users' collection
+    match /users/{userId}/{document=**} {
+      // Allow a user to read and write to their own documents only.
+      // This rule secures all subcollections like 'transactions' and 'budgets'.
+      allow read, write: if request.auth.uid == userId;
+    }
+  }
+}

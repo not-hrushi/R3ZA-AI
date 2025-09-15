@@ -1,0 +1,107 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: 'Inter', sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: 0 0% 96.1%; /* #F5F5F5 */
+    --foreground: 240 10% 3.9%;
+    --card: 0 0% 100%;
+    --card-foreground: 240 10% 3.9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 217 91% 60%; 
+    --primary-foreground: 0 0% 98%;
+    --primary-gradient-start: 217 91% 55%; /* Slightly darker than primary */
+    --primary-gradient-end: 217 91% 40%;   /* Even darker */
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 258 46% 63%; 
+    --accent-foreground: 0 0% 100%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 217 91% 60%; 
+    --chart-1: 217 91% 60%; 
+    --chart-2: 258 46% 63%;
+    --chart-3: 350 85% 60%; /* Example: A vibrant pink/coral */
+    --chart-4: 160 70% 50%; /* Example: A teal/cyan */
+    --chart-5: 45 90% 55%;  /* Example: A warm orange */
+    --radius: 0.75rem; 
+  }
+
+  .dark {
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 217 91% 65%; 
+    --primary-foreground: 210 40% 98%; 
+    --primary-gradient-start: 217 91% 60%; /* Slightly darker than dark primary */
+    --primary-gradient-end: 217 91% 45%;   /* Even darker dark primary */
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 0 0% 63.9%;
+    --accent: 258 46% 58%; 
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 217 91% 65%; 
+    --chart-1: 217 91% 65%; 
+    --chart-2: 258 46% 58%;
+    --chart-3: 350 75% 65%; /* Darker/desaturated version for dark mode */
+    --chart-4: 160 60% 55%; /* Darker/desaturated version for dark mode */
+    --chart-5: 45 80% 60%;  /* Darker/desaturated version for dark mode */
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+/* Custom scrollbar for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-background;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/50 rounded-full;
+}
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/70;
+}
+.dark ::-webkit-scrollbar-thumb {
+  @apply bg-muted-foreground/30;
+}
+.dark ::-webkit-scrollbar-thumb:hover {
+  @apply bg-muted-foreground/50;
+}
+
+/* Pill shape for specific elements */
+.pill-shape {
+  @apply rounded-full;
+}
+
+    
