@@ -3,19 +3,9 @@ import { userConversations } from '../route';
 
 export async function POST(req: NextRequest) {
   try {
-    // Get the userId from the request body if available
-    let userId = null;
-    
-    // Only try to parse JSON if the request has content
-    if (req.body) {
-      try {
-        const body = await req.json();
-        userId = body?.userId;
-      } catch (e) {
-        console.log('[r3za-ai/reset] No valid JSON body provided or empty request');
-        // Continue with userId as null
-      }
-    }
+    // Extract userId from query parameters instead of body to avoid JSON parsing issues
+    const url = new URL(req.url);
+    const userId = url.searchParams.get('userId');
     
     if (userId) {
       // Reset specific user's conversation
@@ -23,7 +13,6 @@ export async function POST(req: NextRequest) {
       console.log(`[r3za-ai/reset] Reset conversation history for user: ${userId}`);
     } else {
       // Reset all conversations if no userId provided
-      // This is useful when the user closes the chat window without being logged in
       userConversations.clear();
       console.log('[r3za-ai/reset] Reset all conversation histories');
     }

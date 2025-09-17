@@ -21,10 +21,12 @@ export function DraggableAIChat() {
     
     // Reset AI conversation history by sending a reset signal to the API
     // Include user ID if available to only reset that user's conversation
-    fetch('/api/r3za-ai/reset', {
+    const resetUrl = user?.uid 
+      ? `/api/r3za-ai/reset?userId=${user.uid}`
+      : '/api/r3za-ai/reset';
+      
+    fetch(resetUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId: user?.uid }),
     }).catch(err => console.error('Failed to reset AI conversation:', err));
   }, [user]);
 
