@@ -1,11 +1,26 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { userConversations } from '../route';
+// Use a dynamic import for userConversations to prevent build-time evaluation
+// This will ensure it's only imported during runtime, not during build
 
 export async function POST(req: NextRequest) {
   try {
-    // Extract userId from query parameters instead of body to avoid JSON parsing issues
-    const url = new URL(req.url);
-    const userId = url.searchParams.get('userId');
+    // Dynamic import of the user conversations map
+    const { userConversations } = await import('../route');
+    
+    // Safely extract userId from query parameters
+    let userId = null;
+    try {
+      const url = new URL(req.url);
+      userId = url.searchParams.get('userId');
+    } catch (e) {
+      console.warn('[r3za-ai/reset] Error parsing URL:', e);
+    }
+    
+    // Safety check on userConversations to ensure it exists
+    if (!userConversations || typeof userConversations.delete !== 'function') {
+      console.warn('[r3za-ai/reset] userConversations map not available');
+      return NextResponse.json({ success: false, message: 'Conversation service not initialized' });
+    }
     
     if (userId) {
       // Reset specific user's conversation
@@ -20,6 +35,9 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (error: any) {
     console.error('[r3za-ai/reset] Error:', error);
-    return NextResponse.json({ error: `Internal Server Error: ${error.message}` }, { status: 500 });
+    return NextResponse.json({ 
+      success: false, 
+      error: `Internal Server Error: ${error?.message || 'Unknown error'}`
+    }, { status: 500 });
   }
 }
