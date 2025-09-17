@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Link from "next/link";
-import { FaqSection } from "@/components/common/faq-section";
+
 
 const signUpSchema = z.object({
   displayName: z.string().min(2, { message: "Name must be at least 2 characters." }).optional(),
@@ -27,14 +27,14 @@ const signUpSchema = z.object({
 
 type SignUpFormValues = z.infer<typeof signUpSchema>;
 
-const FinanceFlowLogoSmall = () => (
+const R3ZALogoSmall = () => (
   <Link href="/" className="flex items-center justify-center gap-2 text-primary font-semibold text-2xl mb-4">
      <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
       <path d="M2 17l10 5 10-5"></path>
       <path d="M2 12l10 5 10-5"></path>
     </svg>
-    <span className="font-headline">FinanceFlow</span>
+    <span className="font-headline">R3ZA</span>
   </Link>
 );
 
@@ -57,8 +57,8 @@ const signupFaqs = [
     answer: "A strong password (at least 6 characters, ideally with a mix of letters, numbers, and symbols) helps protect your financial data. Ensure your passwords match in both fields.",
   },
   {
-    question: "Is signing up for FinanceFlow free?",
-    answer: "Yes, creating an account with FinanceFlow is completely free and gives you access to all its features for managing your personal finances.",
+    question: "Is signing up for R3ZA free?",
+    answer: "Yes, creating an account with R3ZA is completely free and gives you access to all its features for managing your personal finances.",
   },
   {
     question: "What happens after I sign up?",
@@ -117,11 +117,11 @@ export default function SignUpPage() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-primary/5 via-background to-accent/5">
       <div className="w-full max-w-md animate-fade-in">
-        <FinanceFlowLogoSmall />
+        <R3ZALogoSmall />
         <Card className="shadow-2xl rounded-xl">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold font-headline">Create Account</CardTitle>
-            <CardDescription>Join FinanceFlow and start managing your finances.</CardDescription>
+            <CardDescription>Join R3ZA and start managing your finances.</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <Form {...form}>
@@ -255,7 +255,7 @@ export default function SignUpPage() {
             </p>
           </CardFooter>
         </Card>
-        <FaqSection items={signupFaqs} title="Sign Up Help" className="mt-8" />
+
       </div>
     </div>
   );

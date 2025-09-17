@@ -7,34 +7,34 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 import { Loader2, TrendingUp, ShieldCheck, Zap, UserPlus, PlayCircle } from "lucide-react";
 import Link from "next/link";
-import { FaqSection } from "@/components/common/faq-section";
 
-const FinanceFlowLogoLarge = () => (
+
+const R3ZALogoLarge = () => (
   <div className="flex items-center justify-center gap-3 text-primary font-bold text-4xl sm:text-5xl mb-6">
      <svg xmlns="http://www.w3.org/2000/svg" width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
       <path d="M2 17l10 5 10-5"></path>
       <path d="M2 12l10 5 10-5"></path>
     </svg>
-    <span className="font-headline">FinanceFlow</span>
+    <span className="font-headline">R3ZA</span>
   </div>
 );
 
 const homeFaqs = [
   {
-    question: "What is FinanceFlow?",
-    answer: "FinanceFlow is a modern web application designed to help you take control of your personal finances. It allows you to track income and expenses, set budgets, and gain AI-powered insights to make smarter financial decisions.",
+    question: "What is R3ZA?",
+    answer: "R3ZA is a modern web application designed to help you take control of your personal finances. It allows you to track income and expenses, set budgets, and gain AI-powered insights to make smarter financial decisions.",
   },
   {
-    question: "Who is FinanceFlow for?",
-    answer: "FinanceFlow is for anyone looking for an intuitive and powerful tool to manage their money, understand their spending habits, and work towards financial goals, from students to seasoned professionals.",
+    question: "Who is R3ZA for?",
+    answer: "R3ZA is for anyone looking for an intuitive and powerful tool to manage their money, understand their spending habits, and work towards financial goals, from students to seasoned professionals.",
   },
   {
-    question: "Can I try FinanceFlow without creating an account?",
+    question: "Can I try R3ZA without creating an account?",
     answer: "Yes! Click the 'Try Demo' button. You can explore all features using local storage in your browser. Your data won't be saved permanently or synced across devices unless you sign up for a free account.",
   },
   {
-    question: "What are the key benefits of using FinanceFlow?",
+    question: "What are the key benefits of using R3ZA?",
     answer: (
       <>
         <ul className="list-disc pl-5 space-y-1">
@@ -47,8 +47,8 @@ const homeFaqs = [
     ),
   },
   {
-    question: "Is it secure to manage my financial data with FinanceFlow?",
-    answer: "Yes, when you sign up, FinanceFlow is built on Firebase, a secure platform from Google, for authentication and data storage. We recommend using a strong, unique password for your account to further enhance security. Data in Guest Mode is stored locally in your browser and is not transmitted.",
+    question: "Is it secure to manage my financial data with R3ZA?",
+    answer: "Yes, when you sign up, R3ZA is built on Firebase, a secure platform from Google, for authentication and data storage. We recommend using a strong, unique password for your account to further enhance security. Data in Guest Mode is stored locally in your browser and is not transmitted.",
   },
   {
     question: "How do I get started with an account?",
@@ -82,12 +82,12 @@ export default function HomePage() {
       {/* Hero Section - Designed to be centered in the initial viewport */}
       <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 transition-all duration-500">
         <div className="w-full max-w-2xl text-center animate-fade-in">
-          <FinanceFlowLogoLarge />
+          <R3ZALogoLarge />
           <h1 className="text-4xl sm:text-5xl font-extrabold font-headline mb-6 text-foreground">
             Take Control of Your Finances
           </h1>
           <p className="text-lg sm:text-xl text-muted-foreground mb-10 max-w-xl mx-auto">
-            FinanceFlow helps you track spending, manage budgets, and gain AI-powered insights to achieve your financial goals.
+            R3ZA helps you track spending, manage budgets, and gain AI-powered insights to achieve your financial goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button asChild size="lg" className="rounded-full shadow-lg hover:shadow-xl transition-shadow py-7 px-10 text-lg group">
@@ -121,12 +121,12 @@ export default function HomePage() {
         
         {/* FAQ Section Wrapper*/}
         <div className="max-w-4xl w-full mx-auto mb-10 sm:mb-14">
-          <FaqSection items={homeFaqs} />
+
         </div>
 
         {/* Footer */}
         <footer className="text-center py-4 text-muted-foreground max-w-4xl w-full mx-auto">
-          <p>&copy; {new Date().getFullYear()} FinanceFlow. Secure and Smart Financial Management. Made by Souvik Bagchi.</p>
+          <p>&copy; {new Date().getFullYear()} R3ZA. Secure and Smart Financial Management. Made by Hrushi.</p>
         </footer>
       </div>
     </div>

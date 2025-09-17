@@ -11,7 +11,7 @@ import { useState, type FormEvent } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { sendPasswordResetEmail } from "firebase/auth"; // Import if using Firebase
 import { auth } from "@/lib/firebase"; // Import if using Firebase
-import { FaqSection } from "@/components/common/faq-section";
+
 
 const FinanceFlowLogoSmall = () => (
   <Link href="/" className="flex items-center justify-center gap-2 text-primary font-semibold text-2xl mb-4">
@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
             </Button>
           </CardFooter>
         </Card>
-        <FaqSection items={forgotPasswordFaqs} title="Password Reset Help" className="mt-8" />
+
       </div>
     </div>
   );

@@ -30,7 +30,7 @@ import { detectSubscriptionsFromTransactions, createBudgetsForSubscriptions, typ
 import { collection, query, onSnapshot, Unsubscribe } from "firebase/firestore"; 
 import { db } from "@/lib/firebase";
 import type { Timestamp as FirestoreTimestamp } from "firebase/firestore";
-import { FaqSection } from "@/components/common/faq-section";
+
 import { format, parseISO, startOfMonth, endOfMonth, startOfYear, endOfYear, isValid as isValidDateFn, formatISO, subMonths, getYear as dateFnsGetYear, getMonth as dateFnsGetMonth } from "date-fns";
 
 const GUEST_USER_ID = "GUEST_USER_ID";
@@ -1131,7 +1131,7 @@ export default function BudgetsPage() {
         </DialogContent>
       </Dialog>
 
-      <FaqSection items={budgetFaqs} />
+
     </AppLayout>
   );
 }

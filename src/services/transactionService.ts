@@ -5,7 +5,7 @@ import { db } from '@/lib/firebase';
 import { collection, addDoc, getDocs, deleteDoc, doc, query, orderBy, Timestamp, updateDoc, getDoc } from 'firebase/firestore';
 
 const GUEST_USER_ID = "GUEST_USER_ID"; 
-const GUEST_TRANSACTIONS_KEY = 'financeflow_guest_transactions';
+const GUEST_TRANSACTIONS_KEY = 'r3za_guest_transactions';
 
 export interface Transaction {
   id: string;

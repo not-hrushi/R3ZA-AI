@@ -6,7 +6,7 @@ import { collection, addDoc, getDocs, deleteDoc, doc, updateDoc, Timestamp, quer
 import { formatISO, parseISO, isValid as isValidDateFn, startOfMonth, endOfMonth, startOfYear, endOfYear, getYear, getMonth } from 'date-fns';
 
 const GUEST_USER_ID = "GUEST_USER_ID"; 
-const GUEST_BUDGETS_KEY = 'financeflow_guest_budgets';
+const GUEST_BUDGETS_KEY = 'r3za_guest_budgets';
 
 export type BudgetPeriodType = 'ongoing' | 'monthly' | 'yearly' | 'custom' | 'recurring-monthly' | 'recurring-yearly';
 

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { AppLayout } from "@/components/layout/app-layout";
@@ -19,6 +18,7 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } f
 import { collection, query, orderBy, onSnapshot, Unsubscribe } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import type { Timestamp as FirestoreTimestamp } from "firebase/firestore";
+import { DraggableAIChat } from "@/components/r3za-ai/draggable-ai-chat";
 
 const GUEST_USER_ID = "GUEST_USER_ID";
 
@@ -280,7 +280,7 @@ export default function DashboardPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-8">
+      <div className="p-4 md:p-6 lg:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-center gap-4">
           <h1 className="text-3xl font-bold font-headline tracking-tight">Dashboard</h1>
           <Button asChild className="rounded-full shadow-md hover:shadow-lg transition-shadow bg-gradient-to-br from-[hsl(var(--primary-gradient-start))] to-[hsl(var(--primary-gradient-end))] text-primary-foreground">
@@ -484,6 +484,7 @@ export default function DashboardPage() {
           onDelete={handleDeleteTransaction}
         />
       )}
+      <DraggableAIChat />
     </AppLayout>
   );
 }

@@ -48,7 +48,7 @@ export function AppLayout({ children }: AppLayoutProps) {
         </div>
       </main>
       <footer className="text-center py-4 text-sm text-muted-foreground">
-        © {new Date().getFullYear()} FinanceFlow. All rights reserved. Made by Souvik Bagchi.
+        © {new Date().getFullYear()} R3ZA. All rights reserved. Made by Hrushi.
       </footer>
     </div>
   );

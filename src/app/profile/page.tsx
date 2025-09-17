@@ -35,7 +35,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger, 
 } from "@/components/ui/alert-dialog";
-import { FaqSection } from "@/components/common/faq-section";
+
 import { useRouter } from "next/navigation";
 
 
@@ -59,11 +59,11 @@ const profileFaqs = [
   },
   {
     question: "What are notification preferences?",
-    answer: "You can manage how FinanceFlow communicates with you. 'Email Weekly Summary' (conceptual) would send you a financial overview. 'Budget Alerts (In-Browser)' (conceptual) would provide browser notifications if you're nearing budget limits. These settings are saved locally in your browser for both registered users and guests.",
+    answer: "You can manage how R3ZA communicates with you. 'Email Weekly Summary' (conceptual) would send you a financial overview. 'Budget Alerts (In-Browser)' (conceptual) would provide browser notifications if you're nearing budget limits. These settings are saved locally in your browser for both registered users and guests.",
   },
   {
     question: "How do I delete my account?",
-    answer: "If logged in, under 'Account Settings', click 'Delete Account'. You'll be asked to confirm this action as it is permanent and will erase all your data from FinanceFlow. This action is not applicable in Guest Mode as data is only local.",
+    answer: "If logged in, under 'Account Settings', click 'Delete Account'. You'll be asked to confirm this action as it is permanent and will erase all your data from R3ZA. This action is not applicable in Guest Mode as data is only local.",
   },
   {
     question: "What is the 'Member Access' / 'Guest Access' card?",
@@ -99,7 +99,7 @@ export default function ProfilePage() {
     if (user) {
       setDisplayName(user.displayName || "");
       // Use a generic key or user-specific if not guest, for notification prefs
-      const storageKey = isGuest ? `financeflow-notifications-guest` : `financeflow-notifications-${user.uid}`;
+      const storageKey = isGuest ? `r3za-notifications-guest` : `r3za-notifications-${user.uid}`;
       const savedPrefs = localStorage.getItem(storageKey);
       if (savedPrefs) {
         setNotificationPrefs(JSON.parse(savedPrefs));
@@ -222,7 +222,7 @@ export default function ProfilePage() {
   };
 
   const handleSaveNotificationPrefs = () => {
-    const storageKey = isGuest ? `financeflow-notifications-guest` : `financeflow-notifications-${user?.uid}`;
+    const storageKey = isGuest ? `r3za-notifications-guest` : `r3za-notifications-${user?.uid}`;
     setIsNotificationPrefsSubmitting(true);
     try {
       localStorage.setItem(storageKey, JSON.stringify(notificationPrefs));
@@ -496,7 +496,7 @@ export default function ProfilePage() {
             )}
           </CardContent>
         </Card>
-        <FaqSection items={profileFaqs} />
+
       </div>
 
       {!isGuest && (

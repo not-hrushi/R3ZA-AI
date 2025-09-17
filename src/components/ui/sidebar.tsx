@@ -4,6 +4,7 @@ import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { VariantProps, cva } from "class-variance-authority"
 import { PanelLeft } from "lucide-react"
+import { Bot } from "lucide-react"
 
 import { useIsMobile } from "@/hooks/use-mobile"
 import { cn } from "@/lib/utils"
@@ -735,29 +736,31 @@ const SidebarMenuSubButton = React.forwardRef<
 })
 SidebarMenuSubButton.displayName = "SidebarMenuSubButton"
 
-export {
-  Sidebar,
-  SidebarContent,
-  SidebarFooter,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarHeader,
-  SidebarInput,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuAction,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSkeleton,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
-  SidebarProvider,
-  SidebarRail,
-  SidebarSeparator,
-  SidebarTrigger,
-  useSidebar,
+function SidebarNav({
+  className,
+  children,
+  ...props
+}: React.HTMLAttributes<HTMLDivElement>) {
+  return (
+    <div className={cn("flex flex-1 flex-col", className)} {...props}>
+      <div className="flex flex-1 flex-col gap-y-4 overflow-y-auto px-2 py-4">
+        {children}
+        <SidebarSection>
+          <SidebarItem icon={<Bot />} href="/r3za-ai">
+            R3ZA AI
+          </SidebarItem>
+        </SidebarSection>
+        <SidebarSection className="mt-auto">
+          <SidebarItem
+            icon={<PanelLeft />}
+            onClick={() => {
+              // ...
+            }}
+          >
+            Toggle Sidebar
+          </SidebarItem>
+        </SidebarSection>
+      </div>
+    </div>
+  )
 }

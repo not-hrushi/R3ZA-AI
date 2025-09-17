@@ -1,4 +1,3 @@
-
 "use client";
 
 import { AppLayout } from "@/components/layout/app-layout";
@@ -40,7 +39,8 @@ import type { Timestamp } from "firebase/firestore";
 import { format, getMonth, getYear, parseISO, isValid } from "date-fns";
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
-import { FaqSection } from "@/components/common/faq-section";
+import { filterTransactions } from "@/lib/transactionFiltering";
+
 
 const GUEST_USER_ID = "GUEST_USER_ID";
 type SortKey = keyof Transaction;
@@ -72,7 +72,7 @@ const transactionFaqs = [
   },
   {
     question: "What information is included in the PDF export?",
-    answer: "The PDF export includes a table of your selected transactions, featuring the FinanceFlow logo, a report title, generation date, and page numbers. The table is styled with themed colors and clear typography for easy reading."
+    answer: "The PDF export includes a table of your selected transactions, featuring the R3ZA logo, a report title, generation date, and page numbers. The table is styled with themed colors and clear typography for easy reading."
   },
   {
     question: "How does sorting work?",
@@ -214,36 +214,7 @@ export default function TransactionsPage() {
   }, [user, authLoading, isGuest, loadTransactions, toast]);
 
   const filteredAndSortedTransactions = useMemo(() => {
-    let itemsToProcess = [...transactions];
-    
-    const currentFilterYear = filterYear === ALL_YEARS_VALUE ? "" : filterYear;
-    const currentFilterMonth = filterMonth === ALL_MONTHS_VALUE ? "" : filterMonth;
-
-    if (filterType !== "all") {
-      itemsToProcess = itemsToProcess.filter(t => t.type === filterType);
-    }
-
-    if (currentFilterYear) {
-      itemsToProcess = itemsToProcess.filter(t => {
-        const transactionDate = parseISO(t.date);
-        return isValid(transactionDate) && getYear(transactionDate) === parseInt(currentFilterYear);
-      });
-    }
-    if (currentFilterMonth && currentFilterYear) { 
-      itemsToProcess = itemsToProcess.filter(t => {
-        const transactionDate = parseISO(t.date);
-        return isValid(transactionDate) && (getMonth(transactionDate) + 1) === parseInt(currentFilterMonth);
-      });
-    }
-
-    if (searchTerm) {
-      const lowercasedSearchTerm = searchTerm.toLowerCase();
-      itemsToProcess = itemsToProcess.filter(transaction =>
-        transaction.description.toLowerCase().includes(lowercasedSearchTerm) ||
-        transaction.category.toLowerCase().includes(lowercasedSearchTerm) ||
-        (transaction.payee && transaction.payee.toLowerCase().includes(lowercasedSearchTerm))
-      );
-    }
+    let itemsToProcess = filterTransactions(transactions, { searchTerm, filterYear, filterMonth, filterType });
 
     if (sortConfig.key) {
       itemsToProcess.sort((a, b) => {
@@ -347,7 +318,7 @@ export default function TransactionsPage() {
       if (link.download !== undefined) {
         const url = URL.createObjectURL(blob);
         link.setAttribute("href", url);
-        link.setAttribute("download", `financeflow_transactions_${timestamp}.csv`);
+        link.setAttribute("download", `r3za_transactions_${timestamp}.csv`);
         link.style.visibility = 'hidden';
         document.body.appendChild(link);
         link.click();
@@ -389,7 +360,7 @@ export default function TransactionsPage() {
       doc.setFont("Helvetica", "bold");
       doc.setFontSize(18);
       doc.setTextColor(...PDF_PRIMARY_COLOR_RGB);
-      doc.text("FinanceFlow", logoX + logoSize + 8, logoY + logoSize * 0.7);
+      doc.text("R3ZA", logoX + logoSize + 8, logoY + logoSize * 0.7);
 
       doc.setFont("Helvetica", "bold");
       doc.setFontSize(14);
@@ -465,7 +436,7 @@ export default function TransactionsPage() {
           firstPage = false;
         }
       });
-      doc.save(`financeflow_transactions_${timestamp}.pdf`);
+      doc.save(`r3za_transactions_${timestamp}.pdf`);
       toast({ title: "PDF Exported", description: "Transaction data downloaded as PDF." });
     }
     
@@ -625,7 +596,7 @@ export default function TransactionsPage() {
             )}
           </CardContent>
         </Card>
-        <FaqSection items={transactionFaqs} />
+
       </div>
 
       <Dialog open={isExportDialogOpen} onOpenChange={setIsExportDialogOpen}>

@@ -31,10 +31,9 @@ const navItems = [
   { href: "/transactions", label: "Transactions", icon: ListChecks },
   { href: "/budgets", label: "Budgets", icon: Target },
   { href: "/insights", label: "Insights", icon: Brain },
-  { href: "/pricing", label: "Plans", icon: CreditCard }, 
 ];
 
-const FinanceFlowLogo = ({
+const R3ZALogo = ({
   isSheet = false,
   textClassName,
   iconClassName,
@@ -57,7 +56,7 @@ const FinanceFlowLogo = ({
         <path d="M2 17l10 5 10-5"></path>
         <path d="M2 12l10 5 10-5"></path>
       </svg>
-      <span className={cn("font-headline", textClassName ? textClassName : "text-primary")}>FinanceFlow</span>
+      <span className={cn("font-headline", textClassName ? textClassName : "text-primary")}>R3ZA</span>
     </Link>
   );
 };
@@ -81,7 +80,7 @@ export function Header() {
         <div className="container mx-auto max-w-4xl lg:max-w-5xl pointer-events-auto">
           <div className="rounded-full bg-background/70 dark:bg-slate-800/60 backdrop-blur-md shadow-lg border border-border/30 flex h-12 items-center justify-between px-3">
             <div className="flex-shrink-0">
-              <FinanceFlowLogo size="small" iconClassName="text-foreground dark:text-slate-200" textClassName="text-foreground dark:text-slate-200" />
+              <R3ZALogo size="small" iconClassName="text-foreground dark:text-slate-200" textClassName="text-foreground dark:text-slate-200" />
             </div>
             <nav className="flex items-center gap-1">
               {navItems.map((item) => (
@@ -173,7 +172,7 @@ export function Header() {
       <header className="md:hidden sticky top-0 z-40 w-full h-16 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
         <div className="container mx-auto flex h-full items-center justify-between px-4">
           <div className="flex items-center">
-            <FinanceFlowLogo />
+            <R3ZALogo />
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -249,7 +248,7 @@ export function Header() {
               <SheetContent side="right" className="w-72 sm:w-80 p-0">
                 <SheetHeader className="p-4 border-b">
                   <SheetTitle className="text-left">
-                    <FinanceFlowLogo isSheet={true} />
+                    <R3ZALogo isSheet={true} />
                   </SheetTitle>
                 </SheetHeader>
                 <nav className="flex flex-col gap-2 p-4">

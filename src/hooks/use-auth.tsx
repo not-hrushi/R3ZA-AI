@@ -20,7 +20,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
 const GUEST_USER_ID = "GUEST_USER_ID";
-const GUEST_MODE_FLAG = "financeflow_guest_mode";
+const GUEST_MODE_FLAG = "r3za_guest_mode";
 
 interface UserProfile {
   uid: string;
@@ -116,9 +116,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const clearGuestData = () => {
-    localStorage.removeItem('financeflow_guest_transactions');
-    localStorage.removeItem('financeflow_guest_budgets');
-    localStorage.removeItem(`financeflow-notifications-guest`);
+    localStorage.removeItem('r3za_guest_transactions');
+    localStorage.removeItem('r3za_guest_budgets');
+    localStorage.removeItem(`r3za-notifications-guest`);
     localStorage.removeItem(GUEST_MODE_FLAG);
   };
 

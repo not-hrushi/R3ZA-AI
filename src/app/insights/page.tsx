@@ -22,7 +22,7 @@ import type { AuditRecurringExpensesInput, AuditRecurringExpensesOutput, Identif
 import { getTransactions, type Transaction } from "@/services/transactionService";
 import { getBudgets, type Budget } from "@/services/budgetService";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { FaqSection } from "@/components/common/faq-section";
+
 import { Badge } from "@/components/ui/badge";
 import { format, subMonths, parseISO } from "date-fns";
 
@@ -774,7 +774,7 @@ export default function InsightsPage() {
             </Accordion>
           </>
         )}
-        <FaqSection items={insightsFaqs} />
+
       </div>
     </AppLayout>
   );

@@ -13,7 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Link from "next/link";
-import { FaqSection } from "@/components/common/faq-section";
+
 
 const loginSchema = z.object({
   email: z.string().email({ message: "Invalid email address." }),
@@ -196,7 +196,7 @@ export default function LoginPage() {
             </Link>
           </CardFooter>
         </Card>
-        <FaqSection items={loginFaqs} title="Login Help" className="mt-8" />
+
       </div>
     </div>
   );
