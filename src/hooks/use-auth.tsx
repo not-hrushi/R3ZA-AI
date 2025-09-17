@@ -155,6 +155,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         login_hint: 'user@example.com'
       });
       
+      // Log essential debug information before sign-in attempt
+      console.log("Auth domain check:", {
+        authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN,
+        hasM: process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN?.includes('mindful'),
+        currentUrl: typeof window !== 'undefined' ? window.location.origin : 'SSR'
+      });
+      
       await signInWithPopup(auth, googleAuthProvider);
       toast({ title: "Signed in with Google successfully!" });
       // User state will be updated by onAuthStateChanged, which triggers redirect
@@ -172,6 +179,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         errorMessage = "Multiple popup requests were made. Please try again.";
       } else if (error.code === 'auth/popup-blocked') {
         errorMessage = "Sign-in popup was blocked by the browser. Please enable popups for this site.";
+      } else if (error.code === 'auth/redirect-cancelled-by-user') {
+        errorMessage = "Sign-in redirect was cancelled.";
+      } else if (error.message && error.message.includes('redirect_uri_mismatch')) {
+        errorMessage = "OAuth configuration error: Redirect URI mismatch. The domain needs to be added to Google Cloud Console.";
+        console.error("Redirect URI mismatch. Add your domain to Google Cloud Console OAuth credentials.");
+        
+        // Provide specific guidance for the "indful" vs "mindful" typo
+        if (process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN && 
+            !process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN.includes('mindful')) {
+          errorMessage += " Check for typo: 'mindful' vs 'indful' in the auth domain.";
+          console.error("Auth domain appears to be missing the 'm' in 'mindful':", 
+                        process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN);
+        }
       } else if (error.message) {
         errorMessage = error.message;
       }

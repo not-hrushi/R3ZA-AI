@@ -13,6 +13,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import Link from "next/link";
+import { OAuthDebugger } from "@/components/oauth-debugger";
 
 
 const loginSchema = z.object({
@@ -103,6 +104,10 @@ export default function LoginPage() {
     <div className="min-h-screen flex flex-col items-center justify-center p-4 sm:p-6 bg-gradient-to-br from-primary/5 via-background to-accent/5">
       <div className="w-full max-w-md animate-fade-in">
         <FinanceFlowLogoSmall />
+        
+        {/* OAuth Debugger */}
+        <OAuthDebugger />
+        
         <Card className="shadow-2xl rounded-xl">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-bold font-headline">Welcome Back!</CardTitle>
