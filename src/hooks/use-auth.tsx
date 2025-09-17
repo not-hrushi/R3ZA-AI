@@ -145,12 +145,42 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error("Authentication services not available");
       }
       
+      // Log info for debugging
+      console.log("Attempting Google sign-in with auth domain:", process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN);
+      console.log("Current URL:", typeof window !== 'undefined' ? window.location.href : 'SSR');
+      
+      // Add custom parameter to track origin
+      googleAuthProvider.setCustomParameters({
+        prompt: 'select_account',
+        login_hint: 'user@example.com'
+      });
+      
       await signInWithPopup(auth, googleAuthProvider);
       toast({ title: "Signed in with Google successfully!" });
       // User state will be updated by onAuthStateChanged, which triggers redirect
     } catch (error: any) {
       console.error("Error signing in with Google: ", error);
-      toast({ title: "Google Sign-in failed", description: error.message || "Could not sign in with Google.", variant: "destructive" });
+      
+      // Provide more specific error messages based on the error code
+      let errorMessage = "Could not sign in with Google.";
+      
+      if (error.code === 'auth/unauthorized-domain') {
+        errorMessage = "This domain is not authorized for Google sign-in. Please check Firebase console settings.";
+      } else if (error.code === 'auth/popup-closed-by-user') {
+        errorMessage = "Sign-in popup was closed before completing the process.";
+      } else if (error.code === 'auth/cancelled-popup-request') {
+        errorMessage = "Multiple popup requests were made. Please try again.";
+      } else if (error.code === 'auth/popup-blocked') {
+        errorMessage = "Sign-in popup was blocked by the browser. Please enable popups for this site.";
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      toast({ 
+        title: "Google Sign-in failed", 
+        description: errorMessage, 
+        variant: "destructive" 
+      });
       setLoading(false); // Ensure loading is false on error
     }
   };
