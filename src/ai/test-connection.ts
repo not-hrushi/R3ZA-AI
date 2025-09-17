@@ -16,25 +16,27 @@ export async function testGoogleAIConnection(): Promise<{ success: boolean; mess
   try {
     console.log('Testing Google AI API connection...');
     
-    const { output } = await testPrompt({ message: "test" });
+    const result = await testPrompt({ message: "test" });
     
-    if (output?.response) {
-      console.log('API test successful:', output.response);
+    // Handle case where output might be undefined
+    if (result && result.output && typeof result.output.response === 'string') {
+      console.log('API test successful:', result.output.response);
       return { 
         success: true, 
-        message: `API connection successful. Response: ${output.response}` 
+        message: `API connection successful. Response: ${result.output.response}` 
       };
     } else {
+      console.warn('API responded but with unexpected structure:', JSON.stringify(result));
       return { 
         success: false, 
-        message: 'API responded but no output received' 
+        message: 'API responded but with unexpected output format' 
       };
     }
   } catch (error: any) {
     console.error('API test failed:', error);
     return { 
       success: false, 
-      message: `API test failed: ${error.message}` 
+      message: `API test failed: ${error?.message || 'Unknown error'}` 
     };
   }
 }
