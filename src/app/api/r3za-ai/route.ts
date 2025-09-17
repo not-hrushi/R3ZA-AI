@@ -7,7 +7,16 @@ export const userConversations = new Map<string, { role: string; content: string
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt, userId, resetConversation } = await req.json();
+    // More robust JSON parsing
+    let reqData;
+    try {
+      reqData = await req.json();
+    } catch (e) {
+      console.error('[r3za-ai] JSON parse error:', e);
+      return NextResponse.json({ error: 'Invalid JSON in request body' }, { status: 400 });
+    }
+
+    const { prompt, userId, resetConversation } = reqData || {};
 
     if (!prompt || !userId) {
       return NextResponse.json({ error: 'Missing prompt or userId' }, { status: 400 });

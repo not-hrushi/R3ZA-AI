@@ -4,8 +4,18 @@ import { userConversations } from '../route';
 export async function POST(req: NextRequest) {
   try {
     // Get the userId from the request body if available
-    const body = await req.json().catch(() => ({}));
-    const userId = body.userId;
+    let userId = null;
+    
+    // Only try to parse JSON if the request has content
+    if (req.body) {
+      try {
+        const body = await req.json();
+        userId = body?.userId;
+      } catch (e) {
+        console.log('[r3za-ai/reset] No valid JSON body provided or empty request');
+        // Continue with userId as null
+      }
+    }
     
     if (userId) {
       // Reset specific user's conversation
