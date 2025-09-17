@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
-import { AuthProvider } from '@/hooks/use-auth';
+import ClientAuthProvider from '@/components/client-auth-provider';
 
 export const metadata: Metadata = {
   title: 'R3ZA',
@@ -30,7 +30,7 @@ export default function RootLayout({
         <meta name="theme-color" content="#2563eb" /> 
       </head>
       <body className="font-body antialiased min-h-screen bg-background text-foreground transition-colors duration-300">
-        <AuthProvider>
+        <ClientAuthProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="system"
@@ -40,7 +40,7 @@ export default function RootLayout({
             {children}
             <Toaster />
           </ThemeProvider>
-        </AuthProvider>
+        </ClientAuthProvider>
       </body>
     </html>
   );
