@@ -22,6 +22,9 @@ import { useToast } from "@/hooks/use-toast";
 const GUEST_USER_ID = "GUEST_USER_ID";
 const GUEST_MODE_FLAG = "r3za_guest_mode";
 
+// Check if we're in a browser environment
+const isBrowser = typeof window !== 'undefined';
+
 interface UserProfile {
   uid: string;
   email: string | null;
@@ -61,6 +64,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
 
   useEffect(() => {
+    if (!isBrowser) {
+      // Don't attempt auth operations during server-side rendering
+      return;
+    }
+    
     const guestFlag = localStorage.getItem(GUEST_MODE_FLAG);
     if (guestFlag === 'true') {
       setIsGuest(true);
@@ -73,7 +81,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       setIsPremium(true);
       setLoading(false);
-    } else {
+    } else if (auth) {
       const unsubscribe = onAuthStateChanged(auth, async (firebaseUser: FirebaseUser | null) => {
         if (firebaseUser) {
           setIsGuest(false);
@@ -96,6 +104,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setLoading(false);
       });
       return () => unsubscribe();
+    } else {
+      // Firebase auth is not available (e.g., during build)
+      console.warn("Firebase auth not available - using default state");
+      setUser(null);
+      setLoading(false);
     }
   }, []);
 
@@ -127,6 +140,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearGuestData();
     setIsGuest(false);
     try {
+      // Check if Firebase auth is available
+      if (!auth || !googleAuthProvider) {
+        throw new Error("Authentication services not available");
+      }
+      
       await signInWithPopup(auth, googleAuthProvider);
       toast({ title: "Signed in with Google successfully!" });
       // User state will be updated by onAuthStateChanged, which triggers redirect
@@ -142,6 +160,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearGuestData();
     setIsGuest(false);
     try {
+      // Check if Firebase auth is available
+      if (!auth) {
+        throw new Error("Authentication services not available");
+      }
+      
       await signInWithEmailAndPassword(auth, email, password);
       toast({ title: "Signed in successfully!" });
     } catch (error: any) {
@@ -162,6 +185,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearGuestData();
     setIsGuest(false);
     try {
+      // Check if Firebase auth is available
+      if (!auth) {
+        throw new Error("Authentication services not available");
+      }
+      
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       if (userCredential.user) {
         await updateProfile(userCredential.user, { 
@@ -191,12 +219,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         toast({title: "Guest Mode", description: "Profile cannot be updated in guest mode. Please sign up.", variant: "default"});
         return;
     }
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
+    
+    // Check if Firebase auth is available
+    if (!auth || !auth.currentUser) {
       toast({ title: "Not authenticated", description: "No user logged in to update.", variant: "destructive" });
       return;
     }
     
+    const currentUser = auth.currentUser;
     setLoading(true);
     let changesMade = false;
     const authProfileUpdate: { displayName?: string | null; photoURL?: string | null } = {};
@@ -234,10 +264,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const updateUserPassword = async (newPassword: string) => {
-    if (isGuest || !auth.currentUser) {
-        toast({title: "Action Not Allowed", description: "Password cannot be changed in guest mode or if not logged in.", variant: "default"});
-        throw new Error("User not authenticated or in guest mode.");
+    if (isGuest) {
+      toast({title: "Action Not Allowed", description: "Password cannot be changed in guest mode.", variant: "default"});
+      throw new Error("User in guest mode.");
     }
+    
+    // Check if Firebase auth is available
+    if (!auth || !auth.currentUser) {
+      toast({title: "Not Authenticated", description: "No user logged in to update password.", variant: "destructive"});
+      throw new Error("User not authenticated");
+    }
+    
     setLoading(true);
     try {
       await firebaseUpdatePassword(auth.currentUser, newPassword);
@@ -258,10 +295,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   };
 
   const deleteCurrentUserAccount = async () => {
-    if (isGuest || !auth.currentUser) {
-        toast({title: "Action Not Allowed", description: "Account cannot be deleted in guest mode or if not logged in.", variant: "default"});
-        throw new Error("User not authenticated or in guest mode.");
+    if (isGuest) {
+      toast({title: "Action Not Allowed", description: "Account cannot be deleted in guest mode.", variant: "default"});
+      throw new Error("User in guest mode.");
     }
+    
+    // Check if Firebase auth is available
+    if (!auth || !auth.currentUser) {
+      toast({title: "Not Authenticated", description: "No user logged in to delete account.", variant: "destructive"});
+      throw new Error("User not authenticated");
+    }
+    
     setLoading(true);
     try {
       await firebaseDeleteUser(auth.currentUser);
@@ -280,13 +324,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const reauthenticateUser = async (password: string) => {
     if (isGuest) {
-        toast({title: "Action Not Allowed", description: "Re-authentication not applicable for guest mode.", variant: "default"});
-        throw new Error("Guest mode does not support re-authentication.");
+      toast({title: "Action Not Allowed", description: "Re-authentication not applicable for guest mode.", variant: "default"});
+      throw new Error("Guest mode does not support re-authentication.");
     }
-    const currentUser = auth.currentUser;
-    if (!currentUser || !currentUser.email) {
+    
+    // Check if Firebase auth is available
+    if (!auth || !auth.currentUser || !auth.currentUser.email) {
+      toast({title: "Not Authenticated", description: "User not found or email missing for re-authentication.", variant: "destructive"});
       throw new Error("User not found or email missing for re-authentication.");
     }
+    
+    const currentUser = auth.currentUser;
     setLoading(true);
     try {
       const credential = EmailAuthProvider.credential(currentUser.email, password);
@@ -312,6 +360,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       toast({ title: "Exited Guest Mode" });
     } else {
       try {
+        // Check if Firebase auth is available
+        if (!auth) {
+          console.warn("Firebase auth not available during sign out");
+          router.push("/");
+          return;
+        }
+        
         await firebaseSignOut(auth);
         router.push("/"); 
         toast({ title: "Signed out successfully." });
